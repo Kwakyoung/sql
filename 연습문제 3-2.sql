@@ -1,0 +1,4 @@
+SELECT EMPLOYEE_ID, FIRST_NAME||' '||LAST_NAME name, EMAIL FROM employees
+
+SELECT *
+FROM departments
