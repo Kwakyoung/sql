@@ -263,13 +263,39 @@ ORDER BY TO_CHAR(hire_date,'MM');
 
 
 -- 수업에서는 인라인 뷰 실습용이지만
--- 업무에서는 집계성테이블 실제 DB에 반영하고, 기업 경영하는데 피룡한 데이터로 누적해서 관리해야함
+-- 업무에서는 집계성테이블 실제 DB에 반영하고, 기업 경영하는데 피룡한 데이터로 누적해서 관리해야함!
+-- 테이블의 데이터가 엄청나게 많을때, 조인등으로 연산하면 처리속도/지연시간 ==> 테이블의 일부만 추출할때 사용
+
+-- ROWNUM() : 일반 순위 함수 ( 동순위를 표시, 다음순위+1 표시 = 1,2,3,3,5... )
+-- WHERE 절에 사용한다.
 
 
 
+SELECT ROWNUM AS rank, employee_id,first_name, salary
+FROM    employees
+WHERE   ROWNUM <= 5    
+ORDER BY salary DESC;             -- salay 높은순으로 5명 조회
 
 
--- ========================================
+[예제 6-27] 사번, 이름을 10건 조회한다.
+SELECT employee_id, first_name
+FROM    employees
+WHERE   ROWNUM <= 10;
+
+[예제 6-28]
+SELECT  ROWNUM * AS rank
+FROM    ( SELECT  employee_id, last_name, salary,
+                  
+          FROM    employees );
+
+-- 순위함수를 사용할때
+SELECT  employee_id, last_name, salary,
+        ROWNUM,
+        RANK() OVER(ORDER BY salary DESC) AS salary_rank,
+        DENSE_RANK() OVER(ORDER BY salary DESC) AS salary_rank
+FROM    employees;
+
+
 
 
 
