@@ -260,3 +260,49 @@ SELECT *
 FROM    month_salary2;
 
 COMMIT;
+
+-- month_salary 처럼 month_salary2를 서브쿼리로 처리
+
+[예제8-14] month_salary2의 emp_count, sum_sal, avg_sal 컬럼을 다중컬럼 서브쿼리를 활용해
+employees의 부서별 집계된 데이터를 업데이트하시오!
+(단, 급여평균은 정수로 표시하시오)
+
+UPDATE  month_salary2 m
+SET     ( emp_count, sum_sal, avg_sal ) = ( SELECT COUNT(*), SUM(salary), ROUND(AVG(salary))
+                                            FROM    employees e
+                                            WHERE   e.department_id = m.dept_id
+                                            GROUP BY department_id
+                                            );
+SELECT  *
+FROM    month_salary2;
+
+COMMIT;
+
+
+
+
+-- 8.3 데이터 삭제 DELETE
+-- 테이블의 행 데이터를 삭제하는 기본 문법
+-- WHERE 절의 조건에 일치하는 행 데이터를 삭제한다. (WHERE절 생략시 모든 행 데이터가 삭제됨)
+
+/*
+DELETE FROM 테이블명
+WHERE 조건;
+*/
+
+[예제8-15] emp 테이블에서 60번 부서의 사원 정보를 삭제한다.
+-- 조회
+SELECT  *
+FROM    emp
+WHERE   dept_id = 60;
+
+-- 삭제
+DELETE FROM emp
+WHERE   dept_id = 60;  -- 5rows deleted, 58rows remain
+
+-- WHERE 절 생략시 모든 데이터가 삭제되므로 주의!!
+
+COMMIT; -- 58rows remain
+
+
+
