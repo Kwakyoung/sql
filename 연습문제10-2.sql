@@ -142,5 +142,33 @@ SELECT  c.character_name, NVL(m.character_name, '?') AS master_name
 FROM    characters c , roles r , characters m
 WHERE   c.role_id = r.role_id
 AND     r.role_name = '제다이'
-AND     c.master_id = m.character_id(+)
+AND     NVL(c.master_id,0) = m.character_id(+)
 ORDER BY 1;
+
+
+
+
+-- 8. 역할이 제다이 ==> 기사의 이메일이 있으면 제다이의 이메일을 없으면 마스터의 이메일을 조회 (Emails)
+SELECT  c.character_name, 
+        NVL(c.email, NULL) AS JEDAI_EMAIL,
+        NVL(m.email, NULL) AS MASTER_EAMIL
+FROM    characters c , roles r , characters m
+WHERE   c.role_id = r.role_id
+AND     r.role_name = '제다이'
+AND     NVL(c.master_id,0) = m.character_id(+)
+ORDER BY 1;
+
+-- 11. 위 쿼리문을 참고한 상위 3명의 배역명, 실명, 출연횟수
+-- 인라인 뷰 서브쿼리 활용 하거나 - WEHRE ROWNUM <= 5;
+-- 서브쿼리에서 ORDER BY 절은 아주 특별한 경우가 아니라면 사용하지 않는다.
+
+
+
+
+
+
+
+
+
+
+
